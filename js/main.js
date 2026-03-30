@@ -634,7 +634,7 @@ const defaultLanguage = emptyResponse?.data?.user?.profile?.settings?.language ?
 console.log("Язык по умолчанию:", defaultLanguage);
 */
 
-console.log("Практика");
+/*console.log("Практика");
 
 const order = {
   customer: {
@@ -666,3 +666,62 @@ function displayOrder(order) {
 
 displayOrder(order);
 displayOrder({});
+*/
+
+console.log("Конвертер валют");
+
+const rates = {
+  USD: 80,   
+  EUR: 100,  
+  JPY: 0.6,  
+};
+
+const amountInput = document.getElementById("amount");
+const currencySelect = document.getElementById("currency");
+const convertBtn = document.getElementById("convertBtn");
+const resultDiv = document.getElementById("result");
+const errorDiv = document.getElementById("error");
+
+function clearMessages() {
+  resultDiv.textContent = "";
+  errorDiv.textContent = "";
+}
+
+function convert() {
+  clearMessages();
+
+  const amountValue = amountInput.value.trim();
+  const currency = currencySelect.value;
+
+  if (amountValue === "") {
+    errorDiv.textContent = "Введите сумму.";
+    return;
+  }
+
+  const amountNumber = Number(amountValue);
+
+  if (Number.isNaN(amountNumber) || amountNumber <= 0) {
+    errorDiv.textContent = "Сумма должна быть положительным числом.";
+    return;
+  }
+
+  if (!currency) {
+    errorDiv.textContent = "Выберите валюту.";
+    return;
+  }
+
+  const rate = rates[currency];
+
+  if (!rate) {
+    errorDiv.textContent = "Неизвестная валюта.";
+    return;
+  }
+
+  const result = amountNumber * rate;
+
+  resultDiv.textContent = `Результат: ${amountNumber} ${currency} = ${result.toFixed(
+    2
+  )} RUB`;
+}
+
+convertBtn.addEventListener("click", convert);
